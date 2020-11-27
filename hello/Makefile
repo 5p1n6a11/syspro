@@ -12,22 +12,22 @@ build:
 	make bell_go
 
 hello_c: hello.c
-	gcc -Wall -O2 -o hello_c hello.c
+	gcc -Wall -O2 -o $@ $<
 
 hello_go: hello.go
-	go build -o hello_go hello.go
+	go build -o $@ $<
 
 args_c: args.c
-	gcc -Wall -O2 -o args_c args.c
+	gcc -Wall -O2 -o $@ $<
 
 args_go: args.go
-	go build -o args_go args.go
+	go build -o $@ $<
 
 bell_c: bell.c
-	gcc -Wall -O2 -o bell_c bell.c
+	gcc -Wall -O2 -o $@ $<
 
 bell_go: bell.go
-	go build -o bell_go bell.go
+	go build -o $@ $<
 
 run:
 	./hello_c
@@ -38,6 +38,7 @@ run:
 	./bell_go
 
 clean:
+	go clean
 	-rm hello_c
 	-rm hello_go
 	-rm args_c
