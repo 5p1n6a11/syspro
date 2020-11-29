@@ -1,5 +1,11 @@
 .PHONY: all build run clean
 
+CC = gcc
+CFLAGS = -g -Wall -Wno-parentheses
+TARGETS_c = hello_c args_c bell_c cat_c
+TARGETS_go = hello_go args_go bell_go
+TARGETS = $(TARGETS_c) $(TARGETS_go)
+
 all:
 	make build
 
@@ -10,6 +16,7 @@ build:
 	make args_go
 	make bell_c
 	make bell_go
+	make cat_c
 
 hello_c: hello.c
 	gcc -Wall -O2 -o $@ $<
@@ -29,6 +36,9 @@ bell_c: bell.c
 bell_go: bell.go
 	go build -o $@ $<
 
+cat_c: cat.c
+	gcc -Wall -O2 -o $@ $<
+
 run:
 	./hello_c
 	./hello_go
@@ -36,12 +46,8 @@ run:
 	./args_go
 	./bell_c
 	./bell_go
+	./cat_c
 
 clean:
 	go clean
-	-rm hello_c
-	-rm hello_go
-	-rm args_c
-	-rm args_go
-	-rm bell_c
-	-rm bell_go
+	-rm -f $(TARGETS)
