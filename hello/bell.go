@@ -1,11 +1,11 @@
 package main
 
 import (
-    "fmt"
-    "os"
+	"fmt"
+	"os"
 )
 
 func main() {
-    fmt.Printf("\007")
-    os.Exit(0)
+	fmt.Printf("\007")
+	os.Exit(0)
 }
