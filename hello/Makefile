@@ -7,37 +7,37 @@ TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
 
 hello_c: hello.c
-	gcc -Wall -O2 -o $@ $<
+	gcc -Wall -o $@ $<
 
 hello_go: hello.go
 	go build -o $@ $<
 
 args_c: args.c
-	gcc -Wall -O2 -o $@ $<
+	gcc -Wall -o $@ $<
 
 args_go: args.go
 	go build -o $@ $<
 
 bell_c: bell.c
-	gcc -Wall -O2 -o $@ $<
+	gcc -Wall -o $@ $<
 
 bell_go: bell.go
 	go build -o $@ $<
 
 cat_c: cat.c
-	gcc -Wall -O2 -o $@ $<
+	gcc -Wall -o $@ $<
 
 cat2_c: cat2.c
-	gcc -Wall -O2 -o $@ $<
+	gcc -Wall -o $@ $<
 
 head_c: head.c
-	gcc -Wall -O2 -o $@ $<
+	gcc -Wall -o $@ $<
 
 head2_c: head2.c
-	gcc -Wall -O2 -o $@ $<
+	gcc -Wall -o $@ $<
 
 head4_c: head4.c
-	gcc -Wall -O2 -o $@ $<
+	gcc -Wall -o $@ $<
 
 clean:
 	go clean
