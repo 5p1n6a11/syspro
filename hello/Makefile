@@ -2,23 +2,9 @@
 
 CC = gcc
 CFLAGS = -g -Wall -Wno-parentheses
-TARGETS_c = hello_c args_c bell_c cat_c cat2_c head_c
+TARGETS_c = hello_c args_c bell_c cat_c cat2_c head_c head2_c
 TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
-
-all:
-	make build
-
-build:
-	make hello_c
-	make hello_go
-	make args_c
-	make args_go
-	make bell_c
-	make bell_go
-	make cat_c
-	make cat2_c
-	make head_c
 
 hello_c: hello.c
 	gcc -Wall -O2 -o $@ $<
@@ -47,16 +33,8 @@ cat2_c: cat2.c
 head_c: head.c
 	gcc -Wall -O2 -o $@ $<
 
-run:
-	./hello_c
-	./hello_go
-	./args_c
-	./args_go
-	./bell_c
-	./bell_go
-	./cat_c
-	./cat2_c
-	./head_c
+head2_c: head2.c
+	gcc -Wall -O2 -o $@ $<
 
 clean:
 	go clean
