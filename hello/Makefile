@@ -2,7 +2,7 @@
 
 CC = gcc
 CFLAGS = -g -Wall -Wno-parentheses
-TARGETS_c = hello_c args_c bell_c cat_c cat2_c head_c head2_c
+TARGETS_c = hello_c args_c bell_c cat_c cat2_c head_c head2_c head4_c
 TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
 
@@ -34,6 +34,9 @@ head_c: head.c
 	gcc -Wall -O2 -o $@ $<
 
 head2_c: head2.c
+	gcc -Wall -O2 -o $@ $<
+
+head4_c: head4.c
 	gcc -Wall -O2 -o $@ $<
 
 clean:
