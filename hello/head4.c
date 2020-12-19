@@ -24,13 +24,13 @@ main(int argc, char *argv[])
     /* (3) */
     while ((opt = getopt_long(argc, argv, "n:", longopts, NULL)) != -1) {
         switch (opt) {
-        case 'n':   /* (4) */
+        case 'n':       /* (4) */
             nlines = atol(optarg);
             break;
-        case 'h':   /* (5) */
+        case 'h':       /* (5) */
             fprintf(stdout, "Usage: %s [-n LINES] [FILE ...]\n", argv[0]);
             exit(0);
-        case '?':
+        case '?':       /* (6) */
             fprintf(stderr, "Usage: %s [-n LINES] [FILE ...]\n", argv[0]);
             exit(1);
         }
