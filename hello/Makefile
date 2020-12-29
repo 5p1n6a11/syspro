@@ -12,43 +12,43 @@ TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
 
 hello_c: hello.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 hello_go: hello.go
 	go build -o $@ $<
 
 args_c: args.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 args_go: args.go
 	go build -o $@ $<
 
 bell_c: bell.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 bell_go: bell.go
 	go build -o $@ $<
 
 cat_c: cat.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 cat2_c: cat2.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 head_c: head.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 head2_c: head2.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 head4_c: head4.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 grep_c: grep.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 ls_c: ls.c
-	gcc -Wall -o $@ $<
+	$(CC) -Wall -o $@ $<
 
 clean:
 	go clean
