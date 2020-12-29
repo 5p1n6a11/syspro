@@ -5,7 +5,8 @@ CFLAGS = -g -Wall -Wno-parentheses
 TARGETS_c = hello_c args_c bell_c \
 			cat_c cat2_c \
 			head_c head2_c head4_c \
-			grep_c
+			grep_c \
+			ls_c
 
 TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
@@ -44,6 +45,9 @@ head4_c: head4.c
 	gcc -Wall -o $@ $<
 
 grep_c: grep.c
+	gcc -Wall -o $@ $<
+
+ls_c: ls.c
 	gcc -Wall -o $@ $<
 
 clean:
