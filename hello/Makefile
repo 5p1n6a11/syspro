@@ -7,7 +7,8 @@ TARGETS_c = hello_c args_c bell_c \
 			head_c head2_c head4_c \
 			grep_c \
 			ls_c \
-			mkdir_c
+			mkdir_c \
+			rmdir_c
 
 TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
@@ -52,6 +53,9 @@ ls_c: ls.c
 	$(CC) -Wall -o $@ $<
 
 mkdir_c: mkdir.c
+	$(CC) -Wall -o $@ $<
+
+rmdir_c: rmdir.c
 	$(CC) -Wall -o $@ $<
 
 clean:
