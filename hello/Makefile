@@ -8,7 +8,7 @@ TARGETS_c = hello_c args_c bell_c \
 			grep_c \
 			ls_c \
 			mkdir_c rmdir_c \
-			ln_c symlink_c
+			ln_c symlink_c rm_c
 
 TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
@@ -62,6 +62,9 @@ ln_c: ln.c
 	$(CC) -Wall -o $@ $<
 
 symlink_c: symlink.c
+	$(CC) -Wall -o $@ $<
+
+rm_c: rm.c
 	$(CC) -Wall -o $@ $<
 
 clean:
