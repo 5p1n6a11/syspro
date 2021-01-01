@@ -9,8 +9,7 @@ TARGETS_c = hello_c args_c bell_c \
 			ls_c \
 			mkdir_c rmdir_c \
 			ln_c symlink_c rm_c \
-			mv_c \
-			stat_c
+			mv_c stat_c chmod_c \
 
 TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
@@ -75,6 +74,9 @@ mv_c: mv.c
 stat_c: stat.c
 	$(CC) -Wall -o $@ $<
 
+chmod_c: chmod.c
+	$(CC) -Wall -o $@ $<
+
 clean:
 	go clean
-	-rm -f $(TARGETS)
+	-rm -f $(TARGETS_c)
