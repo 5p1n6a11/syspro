@@ -10,7 +10,7 @@ TARGETS_c = hello_c args_c bell_c \
 			mkdir_c rmdir_c \
 			ln_c symlink_c rm_c \
 			mv_c stat_c chmod_c \
-			spawn_c
+			spawn_c env_c
 
 TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
@@ -80,6 +80,9 @@ chmod_c: chmod.c
 
 spawn_c: spawn.c
 	$(CC) -g -Wall -o $@ $<
+
+env_c: env.c
+	$(CC) -Wall -o $@ $<
 
 clean:
 	go clean
