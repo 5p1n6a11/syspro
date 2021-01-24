@@ -10,7 +10,7 @@ TARGETS_c = hello_c args_c bell_c \
 			mkdir_c rmdir_c \
 			ln_c symlink_c rm_c \
 			mv_c stat_c chmod_c \
-			spawn_c env_c
+			spawn_c env_c daytime_c
 
 TARGETS_go = hello_go args_go bell_go
 TARGETS = $(TARGETS_c) $(TARGETS_go)
@@ -83,6 +83,9 @@ spawn_c: spawn.c
 
 env_c: env.c
 	$(CC) -Wall -o $@ $<
+
+daytime_c: daytime.c
+	$(CC) -g -Wall $< -o $@
 
 clean:
 	go clean
