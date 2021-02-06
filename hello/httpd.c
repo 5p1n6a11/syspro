@@ -72,3 +72,40 @@ static void* xmalloc(size_t sz);
 static void log_exit(char *fmt, ...);
 
 /** Functions **/
+
+int
+main(int argc, char *argv[])
+{
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <docroot>\n", argv[0]);
+        exit(1);
+    }
+    install_signal_handlers();
+    service(stdin, stdout, argv[1]);
+    exit(0);
+}
+
+static void
+install_signal_handlers(void)
+{
+    trap_signal(SIGPIPE, signal_exit);
+}
+
+static void
+trap_signal(int sig, sighandler_t handler)
+{
+    struct sigaction act;
+
+    act.sa_handler = handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = SA_RESTART;
+    if (sigactions(sig, &act, NULL) < 0)
+        log_exit("sigaction() failed: %s", strerror(errno));
+}
+
+static void
+signal_exit(int sig)
+{
+    log_exit("exit by signal %d", sig);
+}
+
