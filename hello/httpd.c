@@ -99,7 +99,7 @@ trap_signal(int sig, sighandler_t handler)
     act.sa_handler = handler;
     sigemptyset(&act.sa_mask);
     act.sa_flags = SA_RESTART;
-    if (sigactions(sig, &act, NULL) < 0)
+    if (sigaction(sig, &act, NULL) < 0)
         log_exit("sigaction() failed: %s", strerror(errno));
 }
 
@@ -143,5 +143,59 @@ read_request(FILE *in)
         req->body = NULL;
     }
     return req;
+}
+
+static void
+read_request_line(struct HTTPRequest *req, FILE *in)
+{
+    char buf[LINE_BUF_SIZE];
+    char *path, *p;
+
+    if (!fgets(buf, LINE_BUF_SIZE, in))
+        log_exit("no request line");
+    p = strchr(buf, ' ');       /* p (1) */
+    if (!p) log_exit("parse error on request line (1): %s", buf);
+    *p++ = '\0';
+    req->method = xmalloc(p - buf);
+    strcpy(req->method, buf);
+    upcase(req->method);
+
+    path = p;
+    p = strchr(path, ' ');      /* p (2) */
+    if (!p) log_exit("parse error on request line (2): %s", buf);
+    *p++ = '\0';
+    req->path = xmalloc(p - path);
+    strcpy(req->path, path);
+
+    if (strncasecmp(p, "HTTP/1.", strlen("HTTP/1.")) != 0)
+        log_exit("parse error on request line (3): %s", buf);
+    p += strlen("HTTP/1.");     /* p (3) */
+    req->protocol_minor_version = atoi(p);
+}
+
+static struct HTTPHeaderField*
+read_header_field(FILE *in)
+{
+    struct HTTPHeaderField *h;
+    char buf[LINE_BUF_SIZE];
+    char *p;
+
+    if (!fgets(buf, LINE_BUF_SIZE, in))
+        log_exit("failed to read request header field: %s", strerror(errno));
+    if ((buf[0] == '\n') || (strcmp(buf, "\r\n") == 0))
+        return NULL;
+
+    p = strchr(buf, ':');
+    if (!p) log_exit("parse error on request header field: %s", buf);
+    *p++ = '\0';
+    h = xmalloc(sizeof(struct HTTPHeaderField));
+    h->name = xmalloc(p - buf);
+    strcpy(h->name, buf);
+
+    p += strspn(p, " \t");
+    h->value = xmalloc(strlen(p) + 1);
+    strcpy(h->value, p);
+
+    return h;
 }
 
