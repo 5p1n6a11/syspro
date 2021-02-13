@@ -199,3 +199,13 @@ read_header_field(FILE *in)
     return h;
 }
 
+static void
+upcase(char *str)
+{
+    char *p;
+
+    for (p = str; *p; p++) {
+        *p = (char)toupper((int)*p);
+    }
+}
+
