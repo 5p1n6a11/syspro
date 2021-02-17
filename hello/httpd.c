@@ -228,3 +228,28 @@ free_request(struct HTTPRequest *req)
     free(req);
 }
 
+static long
+content_length(struct HTTPRequest *req)
+{
+    char *val;
+    long len;
+
+    val = lookup_header_field_value(req, "Content-Length");
+    if (!val) return 0;
+    len = atol(val);
+    if (len < 0) log_exit("negative Content-Length value");
+    return len;
+}
+
+static char*
+lookup_header_field_value(struct HTTPRequest *req, char *name)
+{
+    struct HTTPHeaderField *h;
+
+    for (h = req->header; h; h = h->next) {
+        if (strcasecmp(h->name, name) == 0)
+            return h->value;
+    }
+    return NULL;
+}
+
