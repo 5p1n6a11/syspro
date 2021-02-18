@@ -253,3 +253,16 @@ lookup_header_field_value(struct HTTPRequest *req, char *name)
     return NULL;
 }
 
+static void
+respond_to(struct HTTPRequest *req, FILE *out, char *docroot)
+{
+    if (strcmp(req->method, "GET") == 0)
+        do_file_response(req, out, docroot);
+    else if (strcmp(req->method, "HEAD") == 0)
+        do_file_response(req, out, docroot);
+    else if (strcmp(req->method, "POST") == 0)
+        method_not_allowed(req, out);
+    else
+        not_implemented(req, out);
+}
+
