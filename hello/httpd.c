@@ -321,3 +321,19 @@ method_not_allowed(struct HTTPRequest *req, FILE *out)
     fflush(out);
 }
 
+static void
+not_implemented(struct HTTPRequest *req, FILE *out)
+{
+    output_common_header_fields(req, out, "501 Not Implemented");
+    fprintf(out, "Content-Type: text/html\r\n");
+    fprintf(out, "\r\n");
+    fprintf(out, "<html>\r\n");
+    fprintf(out, "<header>\r\n");
+    fprintf(out, "<title>501 Not Implemented</title>\r\n");
+    fprintf(out, "<header>\r\n");
+    fprintf(out, "<body>\r\n");
+    fprintf(out, "<p>The request method %s is not implemented</p>\r\n", req->method);
+    fprintf(out, "</body>\r\n");
+    fprintf(out, "</html>\r\n");
+    fflush(out);
+}
