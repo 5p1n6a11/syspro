@@ -304,3 +304,20 @@ do_file_response(struct HTTPRequest *req, FILE *out, char *docroot)
     free_fileinfo(info);
 }
 
+static void
+method_not_allowed(struct HTTPRequest *req, FILE *out)
+{
+    output_common_header_fields(req, out, "405 Method Not Allowed");
+    fprintf(out, "Content-Type: text/html\r\n");
+    fprintf(out, "\r\n");
+    fprintf(out, "<html>\r\n");
+    fprintf(out, "<header>\r\n");
+    fprintf(out, "<title>405 Method Not Allowed</title>\r\n");
+    fprintf(out, "<header>\r\n");
+    fprintf(out, "<body>\r\n");
+    fprintf(out, "<p>The request method %s is not allowed</p>\r\n", req->method);
+    fprintf(out, "</body>\r\n");
+    fprintf(out, "</html>\r\n");
+    fflush(out);
+}
+
