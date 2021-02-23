@@ -337,3 +337,98 @@ not_implemented(struct HTTPRequest *req, FILE *out)
     fprintf(out, "</html>\r\n");
     fflush(out);
 }
+
+static void
+not_found(struct HTTPRequest *req, FILE *out)
+{
+    output_common_header_fields(req, out, "404 Not Found");
+    fprintf(out, "Content-Type: text/html\r\n");
+    fprintf(out, "\r\n");
+    if (strcmp(req->method, "HEAD") != 0) {
+        fprintf(out, "<html>\r\n");
+        fprintf(out, "<header><title>Not Found</title><header>\r\n");
+        fprintf(out, "<body><p>File not found</p></body>\r\n");
+        fprintf(out, "</html>\r\n");
+    }
+    fflush(out);
+}
+
+#define TIME_BUF_SIZE 64
+
+static void
+output_common_header_fields(struct HTTPRequest *req, FILE *out, char *status)
+{
+    time_t t;
+    struct tm *tm;
+    char buf[TIME_BUF_SIZE];
+
+    t = time(NULL);
+    tm = gmtime(&t);
+    if (!tm) log_exit("gmtime() failed: %s", strerror(errno));
+    strftime(buf, TIME_BUF_SIZE, "%a, %d %b %Y %H:%M:%S GMT", tm);
+    fprintf(out, "HTTP/1.%d %s\r\n", HTTP_MINOR_VERSION, status);
+    fprintf(out, "Date: %s\r\n", buf);
+    fprintf(out, "Server: %s/%s\r\n", SERVER_NAME, SERVER_VERSION);
+    fprintf(out, "Connection: close\r\n");
+}
+
+static struct FileInfo*
+get_fileinfo(char *docroot, char *urlpath)
+{
+    struct FileInfo *info;
+    struct stat st;
+
+    info = xmalloc(sizeof(struct FileInfo));
+    info->path = build_fspath(docroot, urlpath);
+    info->ok = 0;
+    if (lstat(info->path, &st) < 0) return info;
+    if (!S_ISREG(st.st_mode)) return info;
+    info->ok = 1;
+    info->size = st.st_size;
+    return info;
+}
+
+static char *
+build_fspath(char *docroot, char *urlpath)
+{
+    char *path;
+
+    path = xmalloc(strlen(docroot) + 1 +strlen(urlpath) + 1);
+    sprintf(path, "%s/%s", docroot, urlpath);
+    return path;
+}
+
+static void
+free_fileinfo(struct FileInfo *info)
+{
+    free(info->path);
+    free(info);
+}
+
+static char*
+guess_content_type(struct FileInfo *info)
+{
+    return "text/plain";    /* FIXME */
+}
+
+static void*
+xmalloc(size_t sz)
+{
+    void *p;
+
+    p = malloc(sz);
+    if (!p) log_exit("failed to allocate memory");
+    return p;
+}
+
+static void
+log_exit(char *fmt, ...)
+{
+    va_list ap;
+
+    va_start(ap, fmt);
+    vsprintf(stderr, fmt, ap);
+    fputc('\n', stderr);
+    va_end(ap);
+    exit(1);
+}
