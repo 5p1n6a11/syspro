@@ -393,7 +393,7 @@ build_fspath(char *docroot, char *urlpath)
 {
     char *path;
 
-    path = xmalloc(strlen(docroot) + 1 +strlen(urlpath) + 1);
+    path = xmalloc(strlen(docroot) + 1 + strlen(urlpath) + 1);
     sprintf(path, "%s/%s", docroot, urlpath);
     return path;
 }
@@ -408,7 +408,7 @@ free_fileinfo(struct FileInfo *info)
 static char*
 guess_content_type(struct FileInfo *info)
 {
-    return "text/plain";    /* FIXME */
+    return "text/plain";   /* FIXME */
 }
 
 static void*
@@ -427,7 +427,7 @@ log_exit(char *fmt, ...)
     va_list ap;
 
     va_start(ap, fmt);
-    vsprintf(stderr, fmt, ap);
+    vfprintf(stderr, fmt, ap);
     fputc('\n', stderr);
     va_end(ap);
     exit(1);
